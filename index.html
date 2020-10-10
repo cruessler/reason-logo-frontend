@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Frontend for elm-logo, written with React</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    // React expects `process.env.NODE_ENV` to be set for its decision whether
+    // to load the development or the production build. If it’s not set, it
+    // will fail with a `ReferenceError`.
+    window.process = {
+      env: {
+        NODE_ENV: 'development'
+      }
+    };
+  </script>
+
+  <script src="/moduleserve/load.js" data-module="/src/Index.bs.js"></script>
+  <script src="/watcher.js"></script>
+</body>
+</html>
