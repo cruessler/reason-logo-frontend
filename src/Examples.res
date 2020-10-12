@@ -1,41 +1,38 @@
-let examples: array((string, string)) = [|
+let examples: array<(string, string)> = [
   (
     "ice cream",
-    {|to choices :menu [:sofar []]
+    `to choices :menu [:sofar []]
 if emptyp :menu [print :sofar stop]
 foreach first :menu [(choices butfirst :menu sentence :sofar ?)]
 end
 choices [[small medium large] [vanilla [ultra chocolate] lychee [rum raisin] ginger] [cone cup]]
-|},
+`,
   ),
-  (
-    "square",
-    {|to square :length
+  ("square", `to square :length
 repeat 4 [ forward :length right 90 ]
 end
 pendown square 100
-|},
-  ),
+`),
   (
     "snowflake",
-    {|to snowflake :length :depth
+    `to snowflake :length :depth
 if :depth = 0 [ forward :length ]
 if :depth <> 0 [ snowflake :length / 3 :depth - 1 right 60 snowflake :length / 3 :depth - 1 left 120 snowflake :length / 3 :depth - 1 right 60 snowflake :length / 3 :depth - 1 ]
 end
 back 200 right 30 pendown snowflake 350 3 left 120 snowflake 350 3 left 120 snowflake 350 3
-|},
+`,
   ),
   (
     "fizzbuzz",
-    {|to fizzbuzz :times
+    `to fizzbuzz :times
 repeat :times [ ifelse 0 = remainder repcount 15 [ print "fizzbuzz ] [ ifelse 0 = remainder repcount 5 [ print "buzz ] [ ifelse 0 = remainder repcount 3 [ print "fizz ] [ print repcount ] ] ] ]
 end
 fizzbuzz 100
-|},
+`,
   ),
   (
     "mandelbrot",
-    {|to count.color :count
+    `to count.color :count
   if :count > 256 [output 0]
   if :count > 128 [output 7]
   if :count >  64 [output 5]
@@ -57,21 +54,21 @@ to mandelbrot :left :bottom :side :size
   repeat :size [ make "zr :zr + :inc make "zi :bottom penup setxy repcount - :size/2 minus :size/2 pendown repeat :size [ make "zi :zi + :inc setpencolor count.color calc :zr :zi forward 1 ] ]
 end
 mandelbrot minus 2 minus 1.25 2.5 30
-|},
+`,
   ),
   (
     "fibonacci i",
-    {|to fibonacci :i
+    `to fibonacci :i
   if :i = 1 [ output 1 ]
   if :i = 2 [ output 1 ]
   output (fibonacci :i - 1) + (fibonacci :i - 2)
 end
 foreach [ 1 2 3 4 5 6 7 8 9 10 ] [ print fibonacci ?1 ]
-|},
+`,
   ),
   (
     "fibonacci ii",
-    {|to fibonacci :i
+    `to fibonacci :i
   if :i = 1 [ output 1 ]
   if :i = 2 [ output 1 ]
   localmake "a 1
@@ -80,11 +77,11 @@ foreach [ 1 2 3 4 5 6 7 8 9 10 ] [ print fibonacci ?1 ]
   repeat (:i - 2) [ make "c :a make "a :a + :b make "b :c ]
   output :a
 end
-foreach [ 1 2 3 4 5 6 7 8 9 10 ] [ print fibonacci ?1 ]|},
+foreach [ 1 2 3 4 5 6 7 8 9 10 ] [ print fibonacci ?1 ]`,
   ),
   (
     "99 bottles of beer",
-    {|to bottles :n
+    `to bottles :n
   if :n = 0 [output [No more bottles]]
   if :n = 1 [output [1 bottle]]
   output sentence :n "bottles
@@ -99,27 +96,21 @@ to range :from :to [:acc []]
   if :from > :to - 1 [make "acc (sentence :acc :from) output (range :from - 1 :to :acc)]
   output :acc
 end
-foreach range 99 1 [verse ?1 (print ")]|},
+foreach range 99 1 [verse ?1 (print ")]`,
   ),
-|];
+]
 
-let renderExamples = (~setPrompt) => {
+let renderExamples = (~setPrompt) =>
   Js.Array.map(
     ((title, code)) =>
       <li key=title>
-        <button onClick={_ => setPrompt(_ => code)}>
-          {React.string(title)}
-        </button>
+        <button onClick={_ => setPrompt(_ => code)}> {React.string(title)} </button>
       </li>,
     examples,
-  )
-  |> React.array;
-};
+  ) |> React.array
 
-[@react.component]
-let make = (~setPrompt) => {
+@react.component
+let make = (~setPrompt) =>
   <div id="examples">
-    <h1> {React.string("Examples")} </h1>
-    <ul> {renderExamples(~setPrompt)} </ul>
-  </div>;
-};
+    <h1> {React.string("Examples")} </h1> <ul> {renderExamples(~setPrompt)} </ul>
+  </div>

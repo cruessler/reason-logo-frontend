@@ -1,4 +1,4 @@
-let style = {j|
+let style = j`
   html {
     --primary-color: rgb(248, 248, 242);
     --primary-background-color: rgb(37, 36, 36);
@@ -193,4 +193,4 @@ let style = {j|
     fill: none;
     stroke: black;
   }
-|j};
+`
